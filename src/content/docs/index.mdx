@@ -1,40 +1,149 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: LUMOS Documentation
+description: Type-safe schema language bridging TypeScript ↔ Rust for Solana development
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: Illuminate your Solana development with type-safe cross-language code generation
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/logo.svg
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Get Started
+      link: /getting-started/installation/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/getlumos/lumos
       icon: external
-      variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+## What is LUMOS?
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+LUMOS is a **powerful code generation framework** that bridges TypeScript and Rust, eliminating the pain of maintaining duplicate type definitions across your full-stack Solana applications.
+
+**Write your data structures once** in LUMOS syntax, and automatically generate perfectly synchronized code for both languages with guaranteed Borsh serialization compatibility.
+
+## Key Features
+
+<CardGrid>
+  <Card title="🎯 Single Source of Truth" icon="pencil">
+    Define your data structures once in `.lumos` syntax. Generate production-ready code for both Rust and TypeScript with guaranteed synchronization.
+  </Card>
+
+  <Card title="🔐 100% Type Safety" icon="approve-check">
+    Complete type mapping ensures your Rust structs and TypeScript interfaces are always compatible. No more runtime deserialization errors.
+  </Card>
+
+  <Card title="⚓ Anchor Integration" icon="puzzle">
+    First-class support for Anchor programs. LUMOS understands `#[account]` attributes and generates appropriate code without derive conflicts.
+  </Card>
+
+  <Card title="📦 Borsh Compatible" icon="open-book">
+    Automatic Borsh schema generation for both languages. Field order, type sizes, and serialization format guaranteed to match.
+  </Card>
 </CardGrid>
+
+## Quick Example
+
+Write once in LUMOS:
+
+```lumos
+#[solana]
+#[account]
+struct PlayerAccount {
+    wallet: PublicKey,
+    level: u16,
+    experience: u64,
+}
+```
+
+Get perfect code in both languages:
+
+<CardGrid>
+  <Card title="Rust (Anchor)">
+    ```rust
+    use anchor_lang::prelude::*;
+
+    #[account]
+    pub struct PlayerAccount {
+        pub wallet: Pubkey,
+        pub level: u16,
+        pub experience: u64,
+    }
+    ```
+  </Card>
+
+  <Card title="TypeScript (SDK)">
+    ```typescript
+    import { PublicKey } from '@solana/web3.js';
+    import * as borsh from '@coral-xyz/borsh';
+
+    export interface PlayerAccount {
+      wallet: PublicKey;
+      level: number;
+      experience: number;
+    }
+
+    export const PlayerAccountBorshSchema = borsh.struct([
+      borsh.publicKey('wallet'),
+      borsh.u16('level'),
+      borsh.u64('experience'),
+    ]);
+    ```
+  </Card>
+</CardGrid>
+
+## Why LUMOS?
+
+### The Problem
+
+Building full-stack Solana applications requires maintaining **identical type definitions in two languages**. This manual synchronization is:
+
+- ❌ Error-prone (type drift causes runtime failures)
+- ❌ Time-consuming (write everything twice)
+- ❌ Frustrating (refactoring breaks in multiple places)
+
+### The Solution
+
+LUMOS provides a **custom DSL** with powerful code generators that bridge TypeScript and Rust seamlessly.
+
+- ✅ Define once, generate everywhere
+- ✅ Types always in sync
+- ✅ Refactor in one place
+- ✅ Borsh auto-generated
+- ✅ Production-ready code
+
+## Ready to Get Started?
+
+<CardGrid>
+  <Card title="Installation" icon="rocket">
+    Install LUMOS CLI and start generating code in minutes.
+
+    [Install Now →](/getting-started/installation/)
+  </Card>
+
+  <Card title="Quick Start" icon="star">
+    Write your first schema and see the magic happen.
+
+    [Quick Start →](/getting-started/quick-start/)
+  </Card>
+
+  <Card title="Examples" icon="open-book">
+    Explore real-world Solana schemas for gaming, NFTs, DeFi, and more.
+
+    [View Examples →](/examples/gaming/)
+  </Card>
+
+  <Card title="Type Mapping" icon="list-format">
+    Learn how LUMOS maps types between Rust and TypeScript.
+
+    [Type Mapping →](/guides/type-mapping/)
+  </Card>
+</CardGrid>
+
+---
+
+**Built with ❤️ for the Solana community**
+
+⭐ [Star us on GitHub](https://github.com/getlumos/lumos) • 📦 [View on crates.io](https://crates.io/crates/lumos-core) • 🐦 [Follow us on Twitter](https://twitter.com/getlumos)
