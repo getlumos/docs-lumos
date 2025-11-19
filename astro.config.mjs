@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightChangelog from 'starlight-changelog';
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,6 +27,14 @@ export default defineConfig({
 			],
 			customCss: [
 				'./src/styles/custom.css',
+			],
+			plugins: [
+				starlightChangelog({
+					// Use /changelog as the base URL
+					prefix: 'changelog',
+					// Set the title for the changelog page
+					title: 'Changelog',
+				}),
 			],
 			sidebar: [
 				{
@@ -62,6 +71,11 @@ export default defineConfig({
 						{ label: 'DAO Governance', slug: 'examples/dao-governance' },
 						{ label: 'Token Vesting', slug: 'examples/token-vesting' },
 					],
+				},
+				{
+					label: 'Changelog',
+					link: '/changelog/',
+					badge: { text: 'New', variant: 'success' },
 				},
 			],
 		}),
