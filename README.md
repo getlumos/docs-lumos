@@ -2,7 +2,7 @@
 
 Official documentation website for [LUMOS](https://github.com/getlumos/lumos) - Type-safe schema language for Solana development.
 
-**Live Site:** https://docs.lumos-lang.com
+**Live Site:** https://docs.lumos-lang.org
 
 Built with [Astro Starlight](https://starlight.astro.build)
 

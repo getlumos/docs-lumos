@@ -5,7 +5,7 @@ import starlightChangelog from 'starlight-changelog';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://docs.lumos-lang.com',
+	site: 'https://docs.lumos-lang.org',
 	integrations: [
 		starlight({
 			title: 'LUMOS',
