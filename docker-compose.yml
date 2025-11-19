@@ -1,11 +1,9 @@
-version: '3.8'
-
 services:
   docs:
     image: ghcr.io/getlumos/docs-lumos:latest
     container_name: docs-lumos
     restart: unless-stopped
     ports:
-      - "3001:80"
+      - "4000:80"
     environment:
       - NODE_ENV=production
