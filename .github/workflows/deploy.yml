@@ -48,3 +48,22 @@ jobs:
         run: |
           echo "Image pushed to ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
           echo "Pull command: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+
+  deploy-to-vps:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/app
+            docker pull ghcr.io/getlumos/docs-lumos:latest
+            docker-compose down || true
+            docker-compose up -d
+            docker image prune -f
+            echo "Deployment completed successfully!"
