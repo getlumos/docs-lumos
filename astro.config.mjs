@@ -13,6 +13,9 @@ export default defineConfig({
 			logo: {
 				src: './src/assets/logo.svg',
 			},
+			components: {
+				Footer: './src/components/Footer.astro',
+			},
 			social: [
 				{
 					icon: 'github',

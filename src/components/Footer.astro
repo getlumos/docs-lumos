@@ -1,0 +1,173 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+
+const deployBranch = import.meta.env.PUBLIC_DEPLOY_BRANCH || 'unknown';
+const deployCommit = import.meta.env.PUBLIC_DEPLOY_COMMIT || 'unknown';
+const deployTime = import.meta.env.PUBLIC_DEPLOY_TIME || new Date().toISOString();
+---
+
+<footer class="custom-footer">
+	<div class="footer-content">
+		<div class="footer-main">
+			<p>
+				Built with <a href="https://starlight.astro.build" target="_blank" rel="noopener">Starlight</a>
+				&bull;
+				<a href="https://github.com/getlumos/lumos" target="_blank" rel="noopener">GitHub</a>
+				&bull;
+				<a href="https://github.com/getlumos/lumos/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+			</p>
+			<p class="copyright">
+				© 2025 LUMOS. Type-safe schemas for Solana.
+			</p>
+		</div>
+
+		<div class="deploy-info">
+			<details>
+				<summary>Deployment Info</summary>
+				<dl>
+					<div>
+						<dt>Branch:</dt>
+						<dd>
+							<code>{deployBranch}</code>
+						</dd>
+					</div>
+					<div>
+						<dt>Commit:</dt>
+						<dd>
+							<a
+								href={`https://github.com/getlumos/docs-lumos/commit/${deployCommit}`}
+								target="_blank"
+								rel="noopener"
+							>
+								<code>{deployCommit.substring(0, 7)}</code>
+							</a>
+						</dd>
+					</div>
+					<div>
+						<dt>Deployed:</dt>
+						<dd>
+							<time datetime={deployTime}>
+								{new Date(deployTime).toLocaleString()}
+							</time>
+						</dd>
+					</div>
+				</dl>
+			</details>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.custom-footer {
+		border-top: 1px solid var(--sl-color-gray-5);
+		padding: 2rem 1rem 1rem;
+		margin-top: 4rem;
+		background: var(--sl-color-bg);
+	}
+
+	.footer-content {
+		max-width: 72rem;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.footer-main {
+		text-align: center;
+	}
+
+	.footer-main p {
+		margin: 0.5rem 0;
+		color: var(--sl-color-gray-2);
+		font-size: 0.875rem;
+	}
+
+	.footer-main a {
+		color: var(--sl-color-text-accent);
+		text-decoration: none;
+	}
+
+	.footer-main a:hover {
+		text-decoration: underline;
+	}
+
+	.copyright {
+		color: var(--sl-color-gray-3);
+		font-size: 0.8125rem;
+	}
+
+	.deploy-info {
+		border-top: 1px solid var(--sl-color-gray-6);
+		padding-top: 1rem;
+	}
+
+	.deploy-info details {
+		text-align: center;
+	}
+
+	.deploy-info summary {
+		cursor: pointer;
+		color: var(--sl-color-gray-3);
+		font-size: 0.75rem;
+		user-select: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.deploy-info summary:hover {
+		color: var(--sl-color-text-accent);
+	}
+
+	.deploy-info dl {
+		margin-top: 0.75rem;
+		display: inline-grid;
+		grid-template-columns: auto 1fr;
+		gap: 0.5rem 1rem;
+		font-size: 0.75rem;
+		text-align: left;
+	}
+
+	.deploy-info dt {
+		color: var(--sl-color-gray-3);
+		font-weight: 600;
+	}
+
+	.deploy-info dd {
+		margin: 0;
+		color: var(--sl-color-gray-2);
+	}
+
+	.deploy-info code {
+		font-family: var(--sl-font-mono);
+		font-size: 0.6875rem;
+		background: var(--sl-color-gray-6);
+		padding: 0.125rem 0.375rem;
+		border-radius: 0.25rem;
+	}
+
+	.deploy-info a {
+		color: var(--sl-color-text-accent);
+		text-decoration: none;
+	}
+
+	.deploy-info a:hover {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 50rem) {
+		.custom-footer {
+			padding: 1.5rem 1rem 1rem;
+		}
+
+		.deploy-info dl {
+			grid-template-columns: 1fr;
+			gap: 0.25rem;
+		}
+
+		.deploy-info dd {
+			margin-bottom: 0.5rem;
+		}
+	}
+</style>
