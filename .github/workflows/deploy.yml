@@ -67,7 +67,7 @@ jobs:
           script: |
             cd ~/app
             docker pull ghcr.io/getlumos/docs-lumos:latest
-            docker-compose down || true
-            docker-compose up -d
+            docker compose down || true
+            docker compose up -d
             docker image prune -f
             echo "Deployment completed successfully!"
