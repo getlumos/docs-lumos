@@ -3,11 +3,43 @@ title: Quick Start
 description: Create your first LUMOS schema in 5 minutes
 ---
 
-Welcome to LUMOS! This guide will walk you through creating your first schema and generating code in just a few minutes.
+# LUMOS in 5 Minutes ⚡
+
+Welcome to LUMOS! This guide will get you from zero to working schema in **exactly 5 minutes**.
+
+:::tip[Time Commitment]
+⏱️ **Total Time: 5 minutes**
+- Installation: 1 minute
+- First Schema: 1 minute
+- Generate Code: 30 seconds
+- Review Output: 1 minute
+- Use in Project: 1.5 minutes
+:::
 
 ---
 
-## 1. Initialize a Project
+## Minute 1: Installation
+
+First, install the LUMOS CLI:
+
+```bash
+cargo install lumos-cli
+```
+
+**Verify installation:**
+```bash
+lumos --version
+# Output: lumos-cli 0.1.0
+```
+
+**Optional:** Install VSCode extension for syntax highlighting:
+```bash
+code --install-extension lumos.lumos-vscode
+```
+
+---
+
+## Minute 2: Initialize Project & Write Schema
 
 Create a new LUMOS project:
 
@@ -62,11 +94,12 @@ struct MatchResult {
 
 ---
 
-## 3. Generate Code
+## Minute 3: Generate Code (30 seconds!)
 
 Generate Rust and TypeScript code from your schema:
 
 ```bash
+cd my-game
 lumos generate schema.lumos
 ```
 
@@ -88,7 +121,7 @@ You now have:
 
 ---
 
-## 4. Inspect Generated Code
+## Minute 4: Inspect Generated Code
 
 ### Rust Output (`generated.rs`)
 
@@ -154,7 +187,7 @@ export const MatchResultBorshSchema = borsh.struct([
 
 ---
 
-## 5. Use in Your Project
+## Minute 5: Use in Your Anchor Program
 
 ### In your Anchor program:
 
@@ -218,7 +251,27 @@ async function getPlayerAccount(
 
 ---
 
-## 6. Development Workflow
+## 🎉 You're Done! (5 Minutes Complete)
+
+**Congratulations!** In just 5 minutes you:
+
+✅ Installed LUMOS CLI
+✅ Created your first `.lumos` schema
+✅ Generated type-safe Rust + TypeScript code
+✅ Saw how to use it in Anchor programs
+✅ Learned the complete LUMOS workflow
+
+**What you got:**
+- Type-safe schemas shared between Rust and TypeScript
+- Automatic Borsh serialization
+- Zero manual boilerplate
+- Anchor-ready code
+
+**Next:** Build something real! Check out [complete examples →](/examples/)
+
+---
+
+## Beyond 5 Minutes: Development Workflow
 
 ### Validate Syntax
 
