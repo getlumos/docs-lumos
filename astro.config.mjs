@@ -48,6 +48,14 @@ export default defineConfig({
 						{ label: 'Quick Start', slug: 'getting-started/quick-start' },
 					],
 				},
+				{
+					label: 'API Reference',
+					items: [
+						{ label: 'CLI Commands', slug: 'api/cli-commands' },
+						{ label: 'Type System', slug: 'api/types' },
+						{ label: 'Attributes', slug: 'api/attributes' },
+					],
+				},
 				// TODO: Add these sections as we create the content
 				// {
 				// 	label: 'Guides',
@@ -56,14 +64,6 @@ export default defineConfig({
 				// 		{ label: 'Anchor Integration', slug: 'guides/anchor-integration' },
 				// 		{ label: 'Enum Support', slug: 'guides/enum-support' },
 				// 		{ label: 'Migration Guide', slug: 'guides/migration-guide' },
-				// 	],
-				// },
-				// {
-				// 	label: 'API Reference',
-				// 	items: [
-				// 		{ label: 'CLI Commands', slug: 'api/cli-commands' },
-				// 		{ label: 'Parser', slug: 'api/parser' },
-				// 		{ label: 'Generators', slug: 'api/generators' },
 				// 	],
 				// },
 				// {
