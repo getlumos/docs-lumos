@@ -210,7 +210,7 @@ my-solana-app/
 ```
 
 **`schema.lumos` (example):**
-```lumos
+```rust
 #[solana]
 #[account]
 struct PlayerAccount {

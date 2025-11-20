@@ -34,7 +34,7 @@ LUMOS supports a rich type system that maps cleanly between Rust and TypeScript.
 
 ### Unsigned Integers
 
-```lumos
+```rust
 #[solana]
 struct Numbers {
     tiny: u8,       // 0 to 255
@@ -77,7 +77,7 @@ For `u64` values larger than this, precision may be lost. Use `bigint` carefully
 
 ### Signed Integers
 
-```lumos
+```rust
 #[solana]
 struct SignedNumbers {
     tiny: i8,       // -128 to 127
@@ -96,7 +96,7 @@ struct SignedNumbers {
 
 ### Boolean
 
-```lumos
+```rust
 #[solana]
 struct Flags {
     is_active: bool,
@@ -112,7 +112,7 @@ struct Flags {
 
 ### String
 
-```lumos
+```rust
 #[solana]
 struct Metadata {
     name: String,
@@ -144,7 +144,7 @@ Keep strings short for efficient on-chain storage.
 
 Represents a Solana public key (32 bytes).
 
-```lumos
+```rust
 #[solana]
 struct Account {
     owner: PublicKey,
@@ -186,7 +186,7 @@ export const AccountBorshSchema = borsh.struct([
 
 Represents a Solana signature (64 bytes).
 
-```lumos
+```rust
 #[solana]
 struct Transaction {
     signature: Signature,
@@ -219,7 +219,7 @@ export const TransactionBorshSchema = borsh.struct([
 
 Dynamic-length arrays.
 
-```lumos
+```rust
 #[solana]
 struct Inventory {
     items: [PublicKey],
@@ -267,7 +267,7 @@ For 100 PublicKeys: 4 + (32 × 100) = 3,204 bytes
 
 Nullable fields.
 
-```lumos
+```rust
 #[solana]
 struct Profile {
     username: String,
@@ -316,7 +316,7 @@ Rust-style enums with three variant types.
 
 ### Unit Variants
 
-```lumos
+```rust
 #[solana]
 enum Status {
     Active,
@@ -358,7 +358,7 @@ export const StatusBorshSchema = borsh.rustEnum([
 
 ### Tuple Variants
 
-```lumos
+```rust
 #[solana]
 enum Event {
     UserJoined(PublicKey),
@@ -394,7 +394,7 @@ export const EventBorshSchema = borsh.rustEnum([
 
 ### Struct Variants
 
-```lumos
+```rust
 #[solana]
 enum Instruction {
     Initialize {
@@ -459,7 +459,7 @@ The following types are **NOT** supported:
 ### Workarounds
 
 **Fixed-size arrays → Vec:**
-```lumos
+```rust
 // ❌ Not supported
 struct Data {
     buffer: [u8; 1024],
@@ -472,7 +472,7 @@ struct Data {
 ```
 
 **Tuples → Struct:**
-```lumos
+```rust
 // ❌ Not supported
 struct Pair {
     data: (u64, String),
@@ -507,7 +507,7 @@ For large `u64` values, consider:
 
 :::tip[Use Option for Nullable Fields]
 Always use `Option<T>` for optional values:
-```lumos
+```rust
 struct User {
     name: String,
     email: Option<String>,  // Not all users have email

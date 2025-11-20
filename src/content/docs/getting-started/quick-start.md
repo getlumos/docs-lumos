@@ -65,7 +65,7 @@ my-game/
 
 Open `schema.lumos` and define your data structures:
 
-```lumos
+```rust
 #[solana]
 #[account]
 struct PlayerAccount {

@@ -56,7 +56,7 @@ const GameStateBorshSchema = borsh.struct([
 
 ### With LUMOS
 
-```lumos
+```rust
 #[solana]
 struct GameState {
     player: PublicKey,

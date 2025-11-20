@@ -22,7 +22,7 @@ Marks a type as Solana-specific, enabling Solana type support (`PublicKey`, `Sig
 
 ### Syntax
 
-```lumos
+```rust
 #[solana]
 struct TypeName {
     // fields
@@ -81,7 +81,7 @@ export const TypeNameBorshSchema = borsh.struct([
 
 #### Simple Solana Struct
 
-```lumos
+```rust
 #[solana]
 struct Account {
     owner: PublicKey,
@@ -103,7 +103,7 @@ pub struct Account {
 
 #### Solana Enum
 
-```lumos
+```rust
 #[solana]
 enum TransactionType {
     Transfer(PublicKey, u64),
@@ -127,7 +127,7 @@ pub enum TransactionType {
 
 #### Non-Solana Type (No Attribute)
 
-```lumos
+```rust
 struct GenericData {
     id: u64,
     value: String,
@@ -165,7 +165,7 @@ Generates Anchor's `#[account]` macro for on-chain account data.
 
 ### Syntax
 
-```lumos
+```rust
 #[solana]
 #[account]
 struct AccountName {
@@ -181,7 +181,7 @@ struct AccountName {
 
 #### With `#[account]`
 
-```lumos
+```rust
 #[solana]
 #[account]
 struct PlayerAccount {
@@ -211,7 +211,7 @@ pub struct PlayerAccount {
 
 #### Without `#[account]`
 
-```lumos
+```rust
 #[solana]
 struct EventData {
     player: PublicKey,
@@ -254,7 +254,7 @@ impl borsh::BorshDeserialize for EventData { /* ... */ }
 
 #### Player Account (On-Chain Storage)
 
-```lumos
+```rust
 #[solana]
 #[account]
 struct PlayerAccount {
@@ -299,7 +299,7 @@ pub struct CreatePlayer<'info> {
 
 #### Match Result (Event Data, Not Stored)
 
-```lumos
+```rust
 #[solana]
 struct MatchResult {
     winner: PublicKey,
@@ -333,7 +333,7 @@ pub mod game {
 
 ### Valid Combinations
 
-```lumos
+```rust
 // ✅ Both attributes (on-chain account)
 #[solana]
 #[account]
@@ -351,7 +351,7 @@ struct Data { /* ... */ }
 
 ### Invalid Combinations
 
-```lumos
+```rust
 // ❌ #[account] without #[solana]
 #[account]
 struct Account { /* ... */ }
@@ -372,7 +372,7 @@ LUMOS intelligently detects when to use Anchor imports based on attributes in th
 
 ### Example: Mixed Module
 
-```lumos
+```rust
 // File: schema.lumos
 
 #[solana]
@@ -438,7 +438,7 @@ LUMOS chooses imports based on attributes:
 
 :::tip[Use #[account] for Persistent Data]
 If data is stored on-chain in a PDA or account, use `#[account]`:
-```lumos
+```rust
 #[solana]
 #[account]
 struct UserProfile { /* ... */ }
@@ -447,7 +447,7 @@ struct UserProfile { /* ... */ }
 
 :::tip[Omit #[account] for Events]
 Events are emitted, not stored:
-```lumos
+```rust
 #[solana]
 struct TransferEvent { /* ... */ }
 ```
@@ -459,7 +459,7 @@ Put attributes in this order:
 2. `#[account]` (if needed)
 3. Type definition
 
-```lumos
+```rust
 #[solana]
 #[account]
 struct Account { /* ... */ }
@@ -484,7 +484,7 @@ cannot find type `Pubkey` in this scope
 ```
 
 **Fix:** Add `#[solana]` attribute:
-```lumos
+```rust
 #[solana]  // ← Add this
 struct Account {
     owner: PublicKey,
@@ -501,7 +501,7 @@ struct Account {
 ```
 
 **Fix:** Add `#[solana]` before `#[account]`:
-```lumos
+```rust
 #[solana]   // ← Add this
 #[account]
 struct Account { /* ... */ }
@@ -517,7 +517,7 @@ cannot derive `BorshSerialize` when #[account] is present
 ```
 
 **Fix:** Remove manual derives - Anchor handles serialization:
-```lumos
+```rust
 // ❌ Don't do this
 #[solana]
 #[account]
