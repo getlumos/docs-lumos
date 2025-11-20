@@ -54,6 +54,7 @@ export default defineConfig({
 						{ label: 'CLI Commands', slug: 'api/cli-commands' },
 						{ label: 'Type System', slug: 'api/types' },
 						{ label: 'Attributes', slug: 'api/attributes' },
+						{ label: 'Generated Code', slug: 'api/generated-code' },
 					],
 				},
 				// TODO: Add these sections as we create the content
