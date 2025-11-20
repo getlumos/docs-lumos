@@ -58,16 +58,12 @@ export default defineConfig({
 						{ label: 'Generated Code', slug: 'api/generated-code' },
 					],
 				},
-				// TODO: Add these sections as we create the content
-				// {
-				// 	label: 'Guides',
-				// 	items: [
-				// 		{ label: 'Type Mapping', slug: 'guides/type-mapping' },
-				// 		{ label: 'Anchor Integration', slug: 'guides/anchor-integration' },
-				// 		{ label: 'Enum Support', slug: 'guides/enum-support' },
-				// 		{ label: 'Migration Guide', slug: 'guides/migration-guide' },
-				// 	],
-				// },
+				{
+					label: 'Guides',
+					items: [
+						{ label: 'Migration Guide', slug: 'guides/migration-guide' },
+					],
+				},
 				// {
 				// 	label: 'Examples',
 				// 	items: [
