@@ -9,9 +9,9 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'LUMOS',
-			description: 'Type-safe schema language for Solana development',
+			description: 'Write once. Deploy Everywhere. Type-safe schema language for Solana development.',
 			logo: {
-				src: './src/assets/logo.svg',
+				src: './src/assets/logo.png',
 			},
 			components: {
 				Footer: './src/components/Footer.astro',

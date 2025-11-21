@@ -1,7 +1,9 @@
 ---
 title: Introduction
-description: Learn what LUMOS is and why it's the best tool for Solana development
+description: Write once. Deploy Everywhere. Type-safe schema language for Solana development.
 ---
+
+> **Write once. Deploy Everywhere.**
 
 ## What is LUMOS?
 
