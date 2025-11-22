@@ -3,8 +3,6 @@ title: Migration Guide
 description: Step-by-step guide for migrating from manual Borsh code to LUMOS
 ---
 
-# Migration Guide: Manual Borsh → LUMOS
-
 This guide helps you transition from hand-written Borsh serialization code to LUMOS-generated schemas.
 
 **Migration time:** 5-30 minutes per struct/enum (depending on complexity)

@@ -3,8 +3,6 @@ title: Generated Code Examples
 description: See exactly what LUMOS generates from your schemas
 ---
 
-# Generated Code Examples
-
 This page shows complete examples of what LUMOS generates from `.lumos` schemas. Each example includes the input schema and both Rust and TypeScript outputs.
 
 ---

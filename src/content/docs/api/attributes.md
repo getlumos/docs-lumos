@@ -3,8 +3,6 @@ title: Attributes
 description: Reference for all LUMOS schema attributes
 ---
 
-# Attributes Reference
-
 Attributes control how LUMOS generates code for structs and enums. They are written with `#[attribute_name]` syntax above type definitions.
 
 ##  Overview

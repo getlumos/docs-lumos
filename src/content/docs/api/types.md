@@ -3,8 +3,6 @@ title: Type System
 description: Complete reference for all supported types in LUMOS schemas
 ---
 
-# Type System Reference
-
 LUMOS supports a rich type system that maps cleanly between Rust and TypeScript.
 
 ## Type Mapping Overview

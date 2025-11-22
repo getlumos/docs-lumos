@@ -3,8 +3,6 @@ title: CLI Commands
 description: Complete reference for all LUMOS CLI commands
 ---
 
-# CLI Commands Reference
-
 The LUMOS CLI (`lumos`) provides four main commands for working with `.lumos` schema files.
 
 ## Installation
