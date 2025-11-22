@@ -1,8 +1,6 @@
 # CLAUDE.md - LUMOS Documentation
 
-**Repository:** https://github.com/getlumos/docs-lumos
-**Website:** https://lumos-lang.org
-**Purpose:** Official documentation site (VitePress)
+> **Ecosystem Context:** See [getlumos/lumos/CLAUDE.md](https://github.com/getlumos/lumos/blob/main/CLAUDE.md) for LUMOS ecosystem overview, cross-repo standards, and shared guidelines.
 
 ---
 
@@ -23,7 +21,7 @@ docs-lumos/
 ## Local Development
 
 ```bash
-npm install              # Install dependencies
+npm install
 npm run docs:dev         # Dev server (localhost:5173)
 npm run docs:build       # Build for production
 npm run docs:preview     # Preview build
@@ -36,26 +34,8 @@ npm run docs:preview     # Preview build
 **Platform:** Cloudflare Pages
 **Domain:** lumos-lang.org
 **Auto-deploy:** Push to `main` → live
+
 **Build:** `npm run docs:build` → `.vitepress/dist/`
-
----
-
-## Content Organization
-
-| Section | Audience | Purpose |
-|---------|----------|---------|
-| **guide/** | New users | Zero to first schema in 15 min |
-| **reference/** | Active developers | Complete syntax/behavior docs |
-| **examples/** | All users | Copy-paste patterns |
-| **api/** | Integrators | CLI commands, library API |
-
----
-
-## Documentation Standards
-
-**Writing:** Clear, concise, code examples for every concept.
-**Code Examples:** Complete, runnable, show generated output.
-**Structure:** Progressive disclosure (simple → complex), cross-referenced, search-friendly.
 
 ---
 
@@ -68,21 +48,5 @@ npm run docs:preview     # Preview build
 
 ---
 
-## AI Assistant Guidelines
-
-**DO:** Sync with lumos-core releases, test all examples, update versions, cross-reference.
-
-**DON'T:** Document unimplemented features, use outdated syntax, skip testing, create orphaned pages.
-
----
-
-## Related Repositories
-
-- **lumos** - Core library (docs document this)
-- **awesome-lumos** - Examples (docs links to these)
-- **vscode-lumos** - VSCode extension (docs covers usage)
-
----
-
-**Last Updated:** 2025-11-20
+**Last Updated:** 2025-11-22
 **Status:** Live at https://lumos-lang.org
