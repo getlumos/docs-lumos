@@ -3,8 +3,6 @@ title: LUMOS Vision - The Workflow Language for Solana
 description: LUMOS evolves from schema language to workflow automation language - the Hardhat for Solana
 ---
 
-# LUMOS Vision: The Workflow Language for Solana
-
 **Last Updated:** November 22, 2025
 
 ---

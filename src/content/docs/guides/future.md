@@ -3,8 +3,6 @@ title: LUMOS Future - Beyond Solana
 description: Horizontal expansion into multichain, DevOps, and general-purpose automation after achieving the Solana ENDGAME
 ---
 
-# LUMOS Future: Beyond Solana
-
 **Last Updated:** November 22, 2025
 
 ---
