@@ -62,6 +62,8 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Migration Guide', slug: 'guides/migration-guide' },
+						{ label: 'Vision', slug: 'guides/vision', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Future', slug: 'guides/future', badge: { text: 'New', variant: 'success' } },
 					],
 				},
 				// {
