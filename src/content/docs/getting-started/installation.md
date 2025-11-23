@@ -3,7 +3,46 @@ title: Installation
 description: Install LUMOS CLI and start generating type-safe code for Solana
 ---
 
-## Prerequisites
+Choose your installation method based on your development environment:
+
+- **JavaScript/TypeScript** → [Install via npm](#install-via-npm-javascripttypescript)
+- **Rust/Anchor** → [Install via Cargo](#install-via-cargo-rustanchor)
+
+---
+
+## Install via npm (JavaScript/TypeScript)
+
+**No Rust required!** For JavaScript and TypeScript developers:
+
+```bash
+# Install globally
+npm install -g @getlumos/cli
+
+# Verify installation
+lumos --version
+# 0.1.0
+```
+
+**Or use directly with npx:**
+```bash
+npx @getlumos/cli generate schema.lumos
+```
+
+**Prerequisites:**
+- Node.js 16.0 or higher
+
+**Published Package:**
+- 📦 [@getlumos/cli](https://www.npmjs.com/package/@getlumos/cli) - npm package with WASM
+
+**Learn more:** [Using LUMOS with npm →](/guides/npm-package/)
+
+---
+
+## Install via Cargo (Rust/Anchor)
+
+For Rust and Anchor developers:
+
+### Prerequisites
 
 - **Rust 1.70 or higher**
 - **Cargo** package manager
@@ -17,9 +56,7 @@ rustc --version
 
 If you don't have Rust installed, visit [rustup.rs](https://rustup.rs)
 
----
-
-## Install from crates.io (Recommended)
+### Install from crates.io (Recommended)
 
 The fastest way to get started with LUMOS:
 
