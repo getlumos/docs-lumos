@@ -61,6 +61,7 @@ export default defineConfig({
 				{
 					label: 'Guides',
 					items: [
+						{ label: 'Using npm Package', slug: 'guides/npm-package', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Migration Guide', slug: 'guides/migration-guide' },
 						{ label: 'Vision', slug: 'guides/vision', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Future', slug: 'guides/future', badge: { text: 'New', variant: 'success' } },
