@@ -67,6 +67,12 @@ export default defineConfig({
 						{ label: 'Future', slug: 'guides/future', badge: { text: 'New', variant: 'success' } },
 					],
 				},
+				{
+					label: 'Editors',
+					items: [
+						{ label: 'IntelliJ IDEA', slug: 'editors/intellij', badge: { text: 'New', variant: 'success' } },
+					],
+				},
 				// {
 				// 	label: 'Examples',
 				// 	items: [
