@@ -64,6 +64,8 @@ export default defineConfig({
 						{ label: 'Using npm Package', slug: 'guides/npm-package', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Schema Versioning', slug: 'guides/versioning', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Schema Migrations', slug: 'guides/schema-migrations', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Error Handling', slug: 'guides/error-handling', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Debugging', slug: 'guides/debugging', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Migration Guide', slug: 'guides/migration-guide' },
 						{ label: 'Vision', slug: 'guides/vision', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Future', slug: 'guides/future', badge: { text: 'New', variant: 'success' } },
