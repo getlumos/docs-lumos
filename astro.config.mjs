@@ -62,6 +62,8 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Using npm Package', slug: 'guides/npm-package', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Schema Versioning', slug: 'guides/versioning', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Schema Migrations', slug: 'guides/schema-migrations', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Migration Guide', slug: 'guides/migration-guide' },
 						{ label: 'Vision', slug: 'guides/vision', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Future', slug: 'guides/future', badge: { text: 'New', variant: 'success' } },
@@ -73,16 +75,14 @@ export default defineConfig({
 						{ label: 'IntelliJ IDEA', slug: 'editors/intellij', badge: { text: 'New', variant: 'success' } },
 					],
 				},
-				// {
-				// 	label: 'Examples',
-				// 	items: [
-				// 		{ label: 'Gaming Platform', slug: 'examples/gaming' },
-				// 		{ label: 'NFT Marketplace', slug: 'examples/nft-marketplace' },
-				// 		{ label: 'DeFi Staking', slug: 'examples/defi-staking' },
-				// 		{ label: 'DAO Governance', slug: 'examples/dao-governance' },
-				// 		{ label: 'Token Vesting', slug: 'examples/token-vesting' },
-				// 	],
-				// },
+				{
+					label: 'Examples',
+					items: [
+						{ label: 'Adding Optional Field', slug: 'examples/versioning/adding-optional-field', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Changing Field Type', slug: 'examples/versioning/changing-field-type', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Deprecating a Field', slug: 'examples/versioning/deprecating-field', badge: { text: 'New', variant: 'success' } },
+					],
+				},
 				{
 					label: 'Changelog',
 					link: '/changelog/',
