@@ -183,6 +183,19 @@ IR-based design makes adding new target languages straightforward.
 - ✅ Production-ready code
 - ⚠️ Learning curve (minimal)
 
+### Codama
+
+**Different tool, different purpose:** Codama generates client SDKs from existing programs.
+
+- ✅ Great for building clients for deployed programs
+- ✅ Supports Dart and Umi framework
+- ✅ Generates full SDKs with instruction builders
+- ⚠️ Works post-deployment, not pre-deployment
+
+LUMOS and Codama are **complementary**, not competing. Use LUMOS to define data structures, Codama to generate client SDKs.
+
+**[See full comparison →](/guides/lumos-vs-codama/)**
+
 ---
 
 ## Real-World Impact
