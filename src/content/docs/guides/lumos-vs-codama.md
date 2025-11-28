@@ -306,6 +306,59 @@ my-solana-project/
 
 ---
 
+## Future Direction
+
+While both tools serve the Solana ecosystem today, they're heading in **very different directions**.
+
+### Codama v2
+
+Codama is focused on incremental improvements to their IDL framework:
+
+- Better type flexibility in IDL nodes
+- Plugin architecture for extensibility
+- Fixing Anchor IDL conversion issues
+- Instruction constraints and event descriptions
+
+**The trajectory:** A better, more flexible IDL-to-client pipeline.
+
+### LUMOS Era 2 (2026-2027)
+
+LUMOS is transforming from a schema DSL into a **full programming language** for Solana workflows:
+
+```lumos
+// Future LUMOS code (Era 2)
+import { deploy, airdrop } from "lumos-solana"
+import { send_bundle } from "lumos-jito"
+
+let recipients = load_csv("recipients.csv")
+
+fn deploy_and_airdrop(program_path: String) {
+  let program = build_anchor_program(program_path)
+  deploy(program, { cluster: "devnet" })
+
+  let tx = airdrop(recipients, lamports(1_000_000))
+  send_bundle([tx], { tip: lamports(10_000) })
+}
+
+deploy_and_airdrop("./programs/my-program")
+```
+
+**What this means:**
+
+| Capability | LUMOS Era 2 | Codama |
+|------------|-------------|--------|
+| Schema generation | ✅ | ✅ |
+| Executable workflows | ✅ `lumos run` | ❌ |
+| Type-safe scripting | ✅ | ❌ |
+| Package ecosystem | ✅ `lumos-solana`, `lumos-jito` | ❌ |
+| Solana automation | ✅ | ❌ |
+
+**The trajectory:** LUMOS becomes the **TypeScript of Solana workflows** - a programmable automation language, not just a schema generator.
+
+This is a category Codama isn't pursuing, making the tools even more complementary in the future.
+
+---
+
 ## Conclusion
 
 **LUMOS and Codama solve different problems at different stages:**
