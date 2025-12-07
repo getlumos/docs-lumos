@@ -33,9 +33,11 @@ export default defineConfig({
 			],
 			plugins: [
 				starlightChangelog({
-					// Use /changelog as the base URL
+					repo: {
+						owner: 'getlumos',
+						name: 'lumos',
+					},
 					prefix: 'changelog',
-					// Set the title for the changelog page
 					title: 'Changelog',
 				}),
 			],
