@@ -1,8 +1,17 @@
 # LUMOS Documentation
 
+[![License](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE-MIT)
+[![Built with Astro](https://img.shields.io/badge/Built%20with-Astro%20Starlight-purple.svg)](https://starlight.astro.build)
+
 Official documentation website for [LUMOS](https://github.com/getlumos/lumos) - Type-safe schema language for Solana development.
 
 **Live Site:** https://docs.lumos-lang.org
+
+## What is LUMOS?
+
+LUMOS is a powerful code generation framework that bridges TypeScript and Rust for Solana development. Write your data structures once in `.lumos` syntax, and automatically generate production-ready code for both languages with guaranteed Borsh serialization compatibility.
+
+**Stop writing the same types twice. Start building faster.**
 
 Built with [Astro Starlight](https://starlight.astro.build)
 
