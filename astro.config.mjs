@@ -59,6 +59,11 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'FAQ',
+					link: '/faq',
+					badge: { text: 'New', variant: 'tip' },
+				},
+				{
 					label: 'Guides',
 					items: [
 						{ label: 'LUMOS vs Codama', slug: 'guides/lumos-vs-codama', badge: { text: 'New', variant: 'tip' } },
