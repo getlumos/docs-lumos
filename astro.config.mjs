@@ -70,6 +70,7 @@ export default defineConfig({
 					items: [
 						{ label: 'LUMOS vs Codama', slug: 'guides/lumos-vs-codama', badge: { text: 'New', variant: 'tip' } },
 						{ label: 'Using npm Package', slug: 'guides/npm-package', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Multi-File Schemas', slug: 'guides/multi-file-schemas', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Schema Versioning', slug: 'guides/versioning', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Schema Migrations', slug: 'guides/schema-migrations', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Error Handling', slug: 'guides/error-handling', badge: { text: 'New', variant: 'success' } },
