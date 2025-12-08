@@ -1,11 +1,196 @@
 ---
 title: Type System
-description: Complete reference for all supported types in LUMOS schemas
+description: Complete reference for all supported types in LUMOS schemas across 5 languages
 ---
 
-LUMOS supports a rich type system that maps cleanly between Rust and TypeScript.
+LUMOS supports a rich type system that maps cleanly between Rust, TypeScript, Python, Go, and Ruby.
 
-## Type Mapping Overview
+## Multi-Language Type Mapping
+
+LUMOS generates type-safe code in 5 languages from a single schema. All languages use Borsh serialization for guaranteed cross-language compatibility.
+
+### Quick Reference
+
+| LUMOS Type | Rust | TypeScript | Python | Go | Ruby |
+|------------|------|------------|--------|----|----|
+| `u8` | `u8` | `number` | `int` | `uint8` | `Integer` |
+| `u16` | `u16` | `number` | `int` | `uint16` | `Integer` |
+| `u32` | `u32` | `number` | `int` | `uint32` | `Integer` |
+| `u64` | `u64` | `number` | `int` | `uint64` | `Integer` |
+| `u128` | `u128` | `bigint` | `int` | `[16]byte` | `Integer` |
+| `i8` | `i8` | `number` | `int` | `int8` | `Integer` |
+| `i16` | `i16` | `number` | `int` | `int16` | `Integer` |
+| `i32` | `i32` | `number` | `int` | `int32` | `Integer` |
+| `i64` | `i64` | `number` | `int` | `int64` | `Integer` |
+| `i128` | `i128` | `bigint` | `int` | `[16]byte` | `Integer` |
+| `bool` | `bool` | `boolean` | `bool` | `bool` | `TrueClass/FalseClass` |
+| `String` | `String` | `string` | `str` | `string` | `String` |
+| `PublicKey` | `Pubkey` | `PublicKey` | `bytes(32)` | `[32]byte` | `Array (32 bytes)` |
+| `Signature` | `Signature` | `Uint8Array` | `bytes(64)` | `[64]byte` | `Array (64 bytes)` |
+| `Vec<T>` | `Vec<T>` | `T[]` | `list[T]` | `[]T` | `Array` |
+| `Option<T>` | `Option<T>` | `T \| undefined` | `T \| None` | `*T` | `T / nil` |
+| `[T; N]` | `[T; N]` | `T[]` | `list[T]` | `[N]T` | `Array` |
+
+### Borsh Serialization Libraries
+
+| Language | Library | Installation |
+|----------|---------|--------------|
+| Rust | `borsh` | `cargo add borsh` |
+| TypeScript | `@coral-xyz/borsh` | `npm install @coral-xyz/borsh` |
+| Python | `borsh-construct` | `pip install borsh-construct` |
+| Go | Manual (struct tags) | Built-in encoding |
+| Ruby | `borsh-rb` | `gem install borsh-rb` |
+
+---
+
+## Language-Specific Details
+
+### Rust Types
+
+Rust is the primary target for LUMOS. Generated code uses:
+- `borsh::BorshSerialize` and `BorshDeserialize` derives
+- Anchor's `Pubkey` for Solana types
+- Native Rust primitives
+
+```rust
+// Generated Rust
+use borsh::{BorshSerialize, BorshDeserialize};
+use anchor_lang::prelude::*;
+
+#[derive(BorshSerialize, BorshDeserialize)]
+pub struct Account {
+    pub owner: Pubkey,       // PublicKey → Pubkey
+    pub balance: u64,        // u64 → u64
+    pub name: String,        // String → String
+    pub items: Vec<u8>,      // Vec<T> → Vec<T>
+    pub email: Option<String>, // Option<T> → Option<T>
+}
+```
+
+### TypeScript Types
+
+TypeScript generation includes both interfaces and Borsh schemas:
+
+```typescript
+// Generated TypeScript
+import { PublicKey } from '@solana/web3.js';
+import * as borsh from '@coral-xyz/borsh';
+
+export interface Account {
+  owner: PublicKey;         // PublicKey → PublicKey
+  balance: number;          // u64 → number (precision warning)
+  name: string;             // String → string
+  items: number[];          // Vec<u8> → number[]
+  email: string | undefined; // Option<String> → string | undefined
+}
+
+export const AccountBorshSchema = borsh.struct([
+  borsh.publicKey('owner'),
+  borsh.u64('balance'),
+  borsh.string('name'),
+  borsh.vec(borsh.u8(), 'items'),
+  borsh.option(borsh.string(), 'email'),
+]);
+```
+
+:::caution[u64 Precision in TypeScript]
+JavaScript `number` can only safely represent integers up to `2^53 - 1`.
+For `u64` values larger than this, use `bigint` or validate ranges.
+:::
+
+### Python Types
+
+Python generation uses dataclasses with `borsh-construct`:
+
+```python
+# Generated Python
+from dataclasses import dataclass
+from typing import Optional, List
+from borsh_construct import CStruct, U64, String, Vec, Option, Bytes
+
+@dataclass
+class Account:
+    owner: bytes  # 32 bytes for PublicKey
+    balance: int  # u64 → int (Python handles arbitrary precision)
+    name: str     # String → str
+    items: List[int]  # Vec<u8> → List[int]
+    email: Optional[str]  # Option<String> → Optional[str]
+
+AccountSchema = CStruct(
+    "owner" / Bytes(32),
+    "balance" / U64,
+    "name" / String,
+    "items" / Vec(U8),
+    "email" / Option(String),
+)
+```
+
+**Advantages:**
+- Python's `int` handles arbitrary precision natively (no u64 overflow)
+- `borsh-construct` provides zero-copy deserialization
+- Type hints for IDE support
+
+### Go Types
+
+Go generation uses struct tags for Borsh encoding:
+
+```go
+// Generated Go
+package schema
+
+// Account represents the account data
+type Account struct {
+    Owner   [32]byte `borsh:"owner"`   // PublicKey → [32]byte
+    Balance uint64   `borsh:"balance"` // u64 → uint64
+    Name    string   `borsh:"name"`    // String → string
+    Items   []uint8  `borsh:"items"`   // Vec<u8> → []uint8
+    Email   *string  `borsh:"email"`   // Option<String> → *string (nil = None)
+}
+```
+
+**Key Mappings:**
+- `PublicKey` → `[32]byte` (fixed array)
+- `u128` → `[16]byte` (Go lacks native 128-bit integers)
+- `Option<T>` → `*T` (pointer, `nil` represents None)
+
+### Ruby Types
+
+Ruby generation uses classes with YARD documentation:
+
+```ruby
+# Generated Ruby
+require 'borsh'
+
+# Account represents the account data
+# @attr owner [Array<Integer>] The account owner (32 bytes)
+# @attr balance [Integer] The account balance
+# @attr name [String] The account name
+# @attr items [Array<Integer>] The items list
+# @attr email [String, nil] Optional email address
+class Account
+  attr_accessor :owner, :balance, :name, :items, :email
+
+  SCHEMA = {
+    owner: [:u8, 32],
+    balance: :u64,
+    name: :string,
+    items: [:array, :u8],
+    email: [:option, :string]
+  }
+
+  def initialize(opts = {})
+    @owner = opts[:owner] || Array.new(32, 0)
+    @balance = opts[:balance] || 0
+    @name = opts[:name] || ""
+    @items = opts[:items] || []
+    @email = opts[:email]
+  end
+end
+```
+
+---
+
+## Type Mapping Overview (Legacy)
 
 | LUMOS Type | Rust Type | TypeScript Type | Borsh Schema |
 |------------|-----------|-----------------|--------------|
@@ -527,3 +712,6 @@ Every Vec item costs space:
 - [Attributes](/api/attributes) - `#[solana]`, `#[account]`
 - [Generated Code](/api/generated-code) - See actual output
 - [Examples](/examples/) - Real-world schemas
+- [Python Types](/api/python-types) - Python dataclasses with borsh-construct
+- [Go Types](/api/go-types) - Go structs with Borsh serialization
+- [Ruby Types](/api/ruby-types) - Ruby classes with borsh-rb
