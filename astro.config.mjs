@@ -76,6 +76,7 @@ export default defineConfig({
 						{ label: 'Error Handling', slug: 'guides/error-handling', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Debugging', slug: 'guides/debugging', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Borsh Internals & Performance', slug: 'guides/borsh-internals', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Client Interaction', slug: 'guides/client-interaction', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Migration Guide', slug: 'guides/migration-guide' },
 						{ label: 'Vision', slug: 'guides/vision', badge: { text: 'New', variant: 'success' } },
 						{ label: 'Future', slug: 'guides/future', badge: { text: 'New', variant: 'success' } },
