@@ -85,7 +85,19 @@ export default defineConfig({
 				{
 					label: 'Editors',
 					items: [
-						{ label: 'IntelliJ IDEA', slug: 'editors/intellij', badge: { text: 'New', variant: 'success' } },
+						{ label: 'VS Code', slug: 'editors/vscode', badge: { text: 'New', variant: 'success' } },
+						{ label: 'IntelliJ IDEA', slug: 'editors/intellij' },
+						{ label: 'Neovim', slug: 'editors/neovim', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Emacs', slug: 'editors/emacs', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Sublime Text', slug: 'editors/sublime', badge: { text: 'New', variant: 'success' } },
+					],
+				},
+				{
+					label: 'Frameworks',
+					items: [
+						{ label: 'Anchor', slug: 'frameworks/anchor', badge: { text: 'New', variant: 'success' } },
+						{ label: 'Native Solana', slug: 'frameworks/native-solana' },
+						{ label: 'Metaplex', slug: 'frameworks/metaplex', badge: { text: 'New', variant: 'success' } },
 					],
 				},
 				{
