@@ -1,5 +1,5 @@
 # Stage 1: Build the Astro site
-FROM node:20-alpine AS builder
+FROM node:25-alpine AS builder
 
 # Build arguments for deployment info
 ARG DEPLOY_BRANCH=unknown
