@@ -3,7 +3,7 @@ title: CLI Commands
 description: Complete reference for all LUMOS CLI commands
 ---
 
-The LUMOS CLI (`lumos`) provides four main commands for working with `.lumos` schema files.
+The LUMOS CLI (`lumos`) provides commands for code generation, validation, and schema evolution.
 
 ## Installation
 
@@ -312,6 +312,254 @@ jobs:
 
 ---
 
+## Schema Evolution Commands
+
+These commands help you manage schema changes and migrations between versions.
+
+### `lumos diff`
+
+Compare two schema files and show differences.
+
+#### Usage
+
+```bash
+lumos diff <SCHEMA1> <SCHEMA2> [OPTIONS]
+```
+
+#### Arguments
+
+- `<SCHEMA1>` - Path to the first (older) schema file
+- `<SCHEMA2>` - Path to the second (newer) schema file
+
+#### Options
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--format` | `-f` | Output format (`text` or `json`) | `text` |
+| `--help` | `-h` | Print help information | - |
+
+#### Examples
+
+**Compare two versions:**
+```bash
+lumos diff schema-v1.lumos schema-v2.lumos
+```
+
+**Output (text):**
+```
+Schema Differences
+==================
+
++ Added struct: PlayerStats
+  - level: u16
+  - experience: u64
+
+~ Modified struct: PlayerAccount
+  + Added field: stats (PlayerStats)
+  - Removed field: score (u32)
+
+- Removed enum: OldStatus
+```
+
+**JSON output for scripting:**
+```bash
+lumos diff schema-v1.lumos schema-v2.lumos --format json
+```
+
+```json
+{
+  "added": [
+    { "type": "struct", "name": "PlayerStats" }
+  ],
+  "modified": [
+    {
+      "type": "struct",
+      "name": "PlayerAccount",
+      "changes": {
+        "added_fields": ["stats"],
+        "removed_fields": ["score"]
+      }
+    }
+  ],
+  "removed": [
+    { "type": "enum", "name": "OldStatus" }
+  ]
+}
+```
+
+---
+
+### `lumos check-compat`
+
+Check backward compatibility between two schema versions.
+
+#### Usage
+
+```bash
+lumos check-compat <FROM_SCHEMA> <TO_SCHEMA> [OPTIONS]
+```
+
+#### Arguments
+
+- `<FROM_SCHEMA>` - Path to the old schema file (v1)
+- `<TO_SCHEMA>` - Path to the new schema file (v2)
+
+#### Options
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--format` | `-f` | Output format (`text` or `json`) | `text` |
+| `--verbose` | `-v` | Show detailed explanations | `false` |
+| `--strict` | `-s` | Treat warnings as errors | `false` |
+| `--help` | `-h` | Print help information | - |
+
+#### Examples
+
+**Check compatibility:**
+```bash
+lumos check-compat schema-v1.lumos schema-v2.lumos
+```
+
+**Output (compatible):**
+```
+✓ Schema is backward compatible
+
+Changes detected:
+  - Added optional field: PlayerAccount.nickname (Option<String>)
+  - Added struct: AchievementData
+
+These changes are safe for existing on-chain accounts.
+```
+
+**Output (breaking changes):**
+```
+✗ Schema has breaking changes
+
+Breaking changes detected:
+  ✗ Changed field type: PlayerAccount.score (u32 → u64)
+    Reason: Different byte size (4 → 8 bytes)
+    Impact: Existing accounts cannot be deserialized
+
+  ✗ Removed field: PlayerAccount.legacy_data
+    Reason: Field removal changes Borsh layout
+    Impact: Data corruption on deserialization
+
+Run 'lumos migrate' to generate migration code.
+```
+
+**Verbose mode for CI/CD:**
+```bash
+lumos check-compat old.lumos new.lumos --verbose --strict
+```
+
+#### Use Cases
+
+1. **Pre-merge check** - Validate schema changes in PR
+2. **Release validation** - Ensure new version won't break production
+3. **CI/CD pipeline** - Automated compatibility testing
+
+#### Example: GitHub Actions
+
+```yaml
+- name: Check Schema Compatibility
+  run: |
+    lumos check-compat main-schema.lumos pr-schema.lumos --strict
+```
+
+---
+
+### `lumos migrate`
+
+Generate migration code from one schema version to another.
+
+#### Usage
+
+```bash
+lumos migrate <FROM_SCHEMA> <TO_SCHEMA> [OPTIONS]
+```
+
+#### Arguments
+
+- `<FROM_SCHEMA>` - Path to the old schema file (v1)
+- `<TO_SCHEMA>` - Path to the new schema file (v2)
+
+#### Options
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--output` | `-o` | Output file path | stdout |
+| `--language` | `-l` | Target language (`rust`, `typescript`, `both`) | `both` |
+| `--dry-run` | `-n` | Show changes without generating code | `false` |
+| `--force` | `-f` | Force generation for unsafe migrations | `false` |
+| `--help` | `-h` | Print help information | - |
+
+#### Examples
+
+**Preview migration (dry run):**
+```bash
+lumos migrate schema-v1.lumos schema-v2.lumos --dry-run
+```
+
+**Output:**
+```
+Migration: schema-v1.lumos → schema-v2.lumos
+
+Required migrations:
+  1. PlayerAccount.score: u32 → u64
+     - Requires account reallocation (+4 bytes)
+     - Safe: value range expansion
+
+  2. PlayerAccount.stats: (new field)
+     - Requires account reallocation (+10 bytes)
+     - Default value needed
+
+Generated files (dry run):
+  - migration.rs (Rust migration instruction)
+  - migration.ts (TypeScript client helper)
+```
+
+**Generate Rust migration:**
+```bash
+lumos migrate schema-v1.lumos schema-v2.lumos -l rust -o migration.rs
+```
+
+**Generated `migration.rs`:**
+```rust
+use anchor_lang::prelude::*;
+
+/// Migration from v1 to v2
+pub fn migrate_player_account(
+    old_data: &[u8],
+    new_account: &mut PlayerAccountV2,
+) -> Result<()> {
+    // Read old format
+    let old = PlayerAccountV1::try_from_slice(old_data)?;
+
+    // Transform to new format
+    new_account.wallet = old.wallet;
+    new_account.score = old.score as u64;  // Safe upcast
+    new_account.stats = PlayerStats::default();  // New field
+
+    Ok(())
+}
+```
+
+**Generate TypeScript migration:**
+```bash
+lumos migrate schema-v1.lumos schema-v2.lumos -l typescript -o migration.ts
+```
+
+**Force unsafe migration:**
+```bash
+lumos migrate schema-v1.lumos schema-v2.lumos --force
+```
+
+:::caution[Unsafe Migrations]
+Use `--force` only when you understand the risks. Unsafe migrations may cause data loss if not handled correctly.
+:::
+
+---
+
 ## Global Options
 
 Available for all commands:
@@ -419,3 +667,5 @@ Generated files are overwritten on every `generate`. Make schema changes in `.lu
 - [Type System](/api/types) - Supported types and mappings
 - [Attributes](/api/attributes) - Available schema attributes
 - [Generated Code](/api/generated-code) - Understanding output
+- [Schema Versioning](/guides/versioning) - Version your schemas safely
+- [Schema Migrations](/guides/schema-migrations) - Migration strategies and patterns
