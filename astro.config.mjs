@@ -48,7 +48,7 @@ export default defineConfig({
 						{ label: 'Introduction', slug: 'getting-started/introduction' },
 						{ label: 'Installation', slug: 'getting-started/installation' },
 						{ label: 'Quick Start', slug: 'getting-started/quick-start' },
-						{ label: 'Playground', link: '/playground', badge: { text: 'Interactive', variant: 'success' } },
+						{ label: 'Playground', link: 'https://lumos-lang.org/playground', badge: { text: 'Interactive', variant: 'success' }, attrs: { target: '_blank' } },
 					],
 				},
 				{
