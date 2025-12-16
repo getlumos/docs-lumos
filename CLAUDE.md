@@ -8,12 +8,15 @@
 
 ```
 docs-lumos/
-├── .vitepress/config.ts    # Site configuration
-├── index.md                # Homepage
-├── guide/                  # Getting started
-├── reference/              # Language reference
-├── examples/               # Code examples
-└── api/                    # CLI/library API
+├── astro.config.mjs        # Site configuration
+├── src/
+│   ├── content/docs/       # Documentation pages (MDX)
+│   ├── components/         # Custom components (Head, Footer)
+│   └── styles/             # Custom CSS
+├── public/
+│   └── og/                 # Generated OG images
+└── scripts/
+    └── generate-og-images.js  # OG image generator
 ```
 
 ---
@@ -22,31 +25,47 @@ docs-lumos/
 
 ```bash
 npm install
-npm run docs:dev         # Dev server (localhost:5173)
-npm run docs:build       # Build for production
-npm run docs:preview     # Preview build
+npm run dev              # Dev server (localhost:4321)
+npm run build            # Build for production (generates OG images first)
+npm run build:og         # Regenerate OG images only
+npm run preview          # Preview build
 ```
 
 ---
 
 ## Deployment
 
-**Platform:** Cloudflare Pages
-**Domain:** lumos-lang.org
-**Auto-deploy:** Push to `main` → live
+**Platform:** VPS (Docker)
+**SSH Host:** `lumos` (176.222.53.185)
+**User:** `lumos`
+**Port:** 4000
+**Domain:** docs.lumos-lang.org
+**Auto-deploy:** GitHub Actions → Docker → VPS
 
-**Build:** `npm run docs:build` → `.vitepress/dist/`
+**Build:** `npm run build` → `dist/`
 
 ---
 
 ## Key Pages to Maintain
 
-- `guide/installation.md` - Update on version changes
-- `reference/types.md` - Keep type mapping table current
-- `examples/*` - Add real-world patterns
-- `CHANGELOG.md` - Update every release
+- `src/content/docs/getting-started/` - Update on version changes
+- `src/content/docs/api/types.md` - Keep type mapping table current
+- `src/content/docs/frameworks/` - Framework integration guides
+- `src/content/docs/guides/` - Add real-world patterns
 
 ---
 
-**Last Updated:** 2025-11-22
-**Status:** Live at https://lumos-lang.org
+## OG Image Generation
+
+Dynamic OG images are generated at build time using `satori` + `@resvg/resvg-js`:
+
+```bash
+npm run build:og         # Generate all 42 OG images
+```
+
+Images are saved to `public/og/{slug}.png` (1200x630px).
+
+---
+
+**Last Updated:** 2025-12-16
+**Status:** Live at https://docs.lumos-lang.org
