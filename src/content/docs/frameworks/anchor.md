@@ -5,6 +5,45 @@ description: Generate complete Anchor programs from LUMOS schemas
 
 LUMOS provides deep integration with the [Anchor framework](https://www.anchor-lang.com/), allowing you to generate complete Solana programs with account contexts, IDL, and TypeScript clients.
 
+## LUMOS + Anchor: Better Together
+
+:::tip[Key Point]
+**LUMOS complements Anchor, it doesn't replace it.** LUMOS generates Anchor-compatible code from a schema, giving you a single source of truth for your data structures.
+:::
+
+Think of it this way:
+- **Anchor** = The framework that runs your Solana program
+- **LUMOS** = The tool that generates Anchor code from a schema
+
+**Why use both?**
+
+| Without LUMOS | With LUMOS |
+|---------------|------------|
+| Manually write Rust structs | Define once in `.lumos` schema |
+| Manually write TypeScript types | Auto-generate TypeScript |
+| Hope Rust ↔ TS stay in sync | Guaranteed sync (same source) |
+| Calculate account space by hand | Auto-calculated `LEN` constants |
+| Write IDL manually or extract | Auto-generate IDL from schema |
+
+**LUMOS generates standard Anchor code** - your program still uses `anchor_lang`, `#[account]`, `#[program]`, and everything else you know. The difference is you define your types once and generate the rest.
+
+---
+
+## When to Use LUMOS vs Anchor Alone
+
+| Scenario | Recommendation |
+|----------|----------------|
+| Starting a new Anchor project | ✅ Use LUMOS - define schema first, generate code |
+| Existing Anchor project, want type sync | ✅ Use LUMOS - adopt gradually for new types |
+| Simple program, few account types | ⚠️ Either works - Anchor alone is fine |
+| Complex program, many shared types | ✅ Use LUMOS - prevents drift between Rust/TS |
+| Need custom IDL modifications | ⚠️ Start with LUMOS, customize after |
+| Team with mixed Rust/TS developers | ✅ Use LUMOS - schema is readable by all |
+
+**Bottom line:** If you're writing TypeScript clients that interact with your Anchor program, LUMOS saves you from maintaining duplicate type definitions.
+
+---
+
 ## Overview
 
 When your schema uses `#[account]` attributes, LUMOS automatically generates Anchor-compatible code:
@@ -477,11 +516,147 @@ struct Stake {
 
 ---
 
+## Common Patterns
+
+### PDA (Program Derived Address) Accounts
+
+PDAs are accounts whose address is derived from seeds. Define the account structure in LUMOS, derive the PDA in your Anchor code:
+
+```rust
+// schema.lumos
+#[solana]
+#[account]
+struct UserProfile {
+    authority: PublicKey,
+    username: String,
+    reputation: u64,
+    created_at: i64,
+}
+```
+
+```rust
+// In your Anchor program
+#[derive(Accounts)]
+#[instruction(username: String)]
+pub struct CreateProfile<'info> {
+    #[account(
+        init,
+        payer = authority,
+        space = 8 + UserProfile::LEN,
+        seeds = [b"profile", authority.key().as_ref()],
+        bump
+    )]
+    pub profile: Account<'info, UserProfile>,
+    #[account(mut)]
+    pub authority: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
+```
+
+### One-to-Many Relationships
+
+Model relationships using PublicKey references:
+
+```rust
+// schema.lumos
+#[solana]
+#[account]
+struct Collection {
+    authority: PublicKey,
+    name: String,
+    item_count: u32,
+}
+
+#[solana]
+#[account]
+struct Item {
+    collection: PublicKey,  // Reference to parent
+    owner: PublicKey,
+    name: String,
+    attributes: Vec<u8>,
+}
+```
+
+### Token Account Integration
+
+When working with SPL tokens alongside LUMOS-generated accounts:
+
+```rust
+// schema.lumos
+#[solana]
+#[account]
+struct Vault {
+    authority: PublicKey,
+    token_mint: PublicKey,      // SPL token mint
+    token_account: PublicKey,   // Associated token account
+    total_deposited: u64,
+    is_locked: bool,
+}
+```
+
+```rust
+// Anchor context
+#[derive(Accounts)]
+pub struct Deposit<'info> {
+    #[account(mut)]
+    pub vault: Account<'info, Vault>,
+    #[account(mut)]
+    pub vault_token_account: Account<'info, TokenAccount>,
+    #[account(mut)]
+    pub user_token_account: Account<'info, TokenAccount>,
+    pub token_program: Program<'info, Token>,
+    pub authority: Signer<'info>,
+}
+```
+
+### Enum-Based State Machines
+
+Use LUMOS enums for program state:
+
+```rust
+// schema.lumos
+#[solana]
+enum AuctionState {
+    Created,
+    Active { start_time: i64 },
+    Ended { winner: PublicKey, final_bid: u64 },
+    Cancelled,
+}
+
+#[solana]
+#[account]
+struct Auction {
+    authority: PublicKey,
+    item_mint: PublicKey,
+    state: AuctionState,
+    min_bid: u64,
+    current_bid: u64,
+}
+```
+
+---
+
 ## Troubleshooting
 
 ### "Cannot find type" error
 
 Ensure all referenced types are defined in the schema or imported.
+
+```rust
+// Bad - UndefinedType not in schema
+struct MyAccount {
+    data: UndefinedType,  // Error!
+}
+
+// Good - all types defined
+struct MyData {
+    value: u64,
+}
+
+struct MyAccount {
+    data: MyData,  // Works
+}
+```
 
 ### IDL mismatch
 
@@ -498,6 +673,65 @@ Use `lumos anchor space` to verify:
 ```bash
 lumos anchor space schema.lumos --format rust
 ```
+
+### "Discriminator mismatch" at runtime
+
+This happens when the account struct definition changed but the on-chain account wasn't migrated. Solutions:
+
+1. **Development:** Close and recreate the account
+2. **Production:** Implement account migration logic
+
+### Generated code has compile errors
+
+Check your schema for:
+- Reserved Rust keywords used as field names (`type`, `move`, `ref`)
+- Circular type references
+- Missing `#[solana]` attribute
+
+```rust
+// Bad - 'type' is reserved
+struct Token {
+    type: u8,  // Error!
+}
+
+// Good - use different name
+struct Token {
+    token_type: u8,
+}
+```
+
+### TypeScript types don't match runtime values
+
+Ensure you regenerated TypeScript after schema changes:
+
+```bash
+lumos generate schema.lumos --lang ts -o client/types.ts
+```
+
+### Anchor test fails with "Account not found"
+
+The account might not be initialized. Check:
+1. Account is created before being accessed
+2. PDA seeds match between init and access
+3. Program ID is correct
+
+### "Program failed to complete" without details
+
+Enable Anchor's verbose logging:
+
+```bash
+RUST_LOG=solana_runtime::system_instruction_processor=trace anchor test
+```
+
+### How to update schema without breaking existing accounts?
+
+Follow these rules for backward compatibility:
+- ✅ Add new optional fields at the end
+- ✅ Add new enum variants at the end
+- ❌ Don't remove or reorder fields
+- ❌ Don't change field types
+
+See [Schema Migrations](/guides/schema-migrations) for detailed guidance.
 
 ---
 
