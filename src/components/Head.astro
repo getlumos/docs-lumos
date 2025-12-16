@@ -1,0 +1,107 @@
+---
+/**
+ * Custom Head component for LUMOS documentation
+ * Extends Starlight's default Head with:
+ * - og:image and twitter:image (per-page OG images)
+ * - Schema.org JSON-LD structured data
+ */
+
+const { head } = Astro.locals.starlightRoute;
+const { entry, slug } = Astro.locals.starlightRoute;
+
+// Get page metadata
+const title = entry?.data?.title || 'LUMOS Documentation';
+const description = entry?.data?.description || 'Type-safe schema language for Solana development';
+
+// Build OG image URL
+const siteUrl = 'https://docs.lumos-lang.org';
+const ogImagePath = slug ? `/og/${slug}.png` : '/og/index.png';
+const ogImageUrl = `${siteUrl}${ogImagePath}`;
+const canonicalUrl = slug ? `${siteUrl}/${slug}/` : `${siteUrl}/`;
+
+// Schema.org structured data
+const schemaOrg = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    // Organization
+    {
+      '@type': 'Organization',
+      '@id': 'https://lumos-lang.org/#organization',
+      'name': 'LUMOS',
+      'url': 'https://lumos-lang.org',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://docs.lumos-lang.org/favicon.png'
+      },
+      'sameAs': [
+        'https://github.com/getlumos',
+        'https://twitter.com/getlumos'
+      ]
+    },
+    // WebSite
+    {
+      '@type': 'WebSite',
+      '@id': 'https://docs.lumos-lang.org/#website',
+      'url': 'https://docs.lumos-lang.org',
+      'name': 'LUMOS Documentation',
+      'description': 'Official documentation for LUMOS - Type-safe schema language for Solana development',
+      'publisher': {
+        '@id': 'https://lumos-lang.org/#organization'
+      }
+    },
+    // SoftwareApplication
+    {
+      '@type': 'SoftwareApplication',
+      '@id': 'https://lumos-lang.org/#software',
+      'name': 'LUMOS',
+      'description': 'Type-safe schema language bridging TypeScript and Rust for Solana development with guaranteed Borsh serialization compatibility',
+      'applicationCategory': 'DeveloperApplication',
+      'operatingSystem': 'Cross-platform',
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'USD'
+      },
+      'author': {
+        '@id': 'https://lumos-lang.org/#organization'
+      },
+      'downloadUrl': 'https://crates.io/crates/lumos-cli',
+      'softwareVersion': '0.3.0',
+      'programmingLanguage': ['Rust', 'TypeScript'],
+      'keywords': ['Solana', 'Blockchain', 'Schema', 'TypeScript', 'Rust', 'Borsh', 'Code Generation']
+    },
+    // WebPage (current page)
+    {
+      '@type': 'WebPage',
+      '@id': `${canonicalUrl}#webpage`,
+      'url': canonicalUrl,
+      'name': `${title} | LUMOS`,
+      'description': description,
+      'isPartOf': {
+        '@id': 'https://docs.lumos-lang.org/#website'
+      },
+      'about': {
+        '@id': 'https://lumos-lang.org/#software'
+      },
+      'image': ogImageUrl
+    }
+  ]
+};
+---
+
+{/* Render default Starlight head elements */}
+{head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
+
+{/* OG Image */}
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
+
+{/* Twitter Card enhancements */}
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+
+{/* Schema.org JSON-LD */}
+<script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
