@@ -91,9 +91,9 @@ const schemaOrg = {
 };
 ---
 
-{/* Google Analytics 4 - must be early in head for Search Console verification */}
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NZRT4TYL6"></script>
-<script>
+{/* Google Analytics 4 - is:inline prevents Astro from transforming the script */}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NZRT4TYL6" is:inline></script>
+<script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
