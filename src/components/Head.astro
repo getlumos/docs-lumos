@@ -10,8 +10,8 @@ const { head } = Astro.locals.starlightRoute;
 const { entry, slug } = Astro.locals.starlightRoute;
 
 // Get page metadata
-const title = entry?.data?.title || 'LUMOS Documentation';
-const description = entry?.data?.description || 'Type-safe schema language for Solana development';
+const title = entry?.data?.title || 'LUMOS - Solana Schema Generation Tool';
+const description = entry?.data?.description || 'Generate synchronized Rust + TypeScript code from Solana schemas. Type-safe Borsh serialization.';
 
 // Build OG image URL
 const siteUrl = 'https://docs.lumos-lang.org';
@@ -54,8 +54,10 @@ const schemaOrg = {
       '@type': 'SoftwareApplication',
       '@id': 'https://lumos-lang.org/#software',
       'name': 'LUMOS',
-      'description': 'Type-safe schema language bridging TypeScript and Rust for Solana development with guaranteed Borsh serialization compatibility',
+      'alternateName': ['LUMOS Schema Generator', 'Solana Schema Tool'],
+      'description': 'Solana schema generation tool that generates synchronized Rust and TypeScript code from a single source. Type-safe Borsh serialization with Anchor integration.',
       'applicationCategory': 'DeveloperApplication',
+      'applicationSubCategory': 'Code Generator',
       'operatingSystem': 'Cross-platform',
       'offers': {
         '@type': 'Offer',
@@ -67,8 +69,8 @@ const schemaOrg = {
       },
       'downloadUrl': 'https://crates.io/crates/lumos-cli',
       'softwareVersion': '0.3.0',
-      'programmingLanguage': ['Rust', 'TypeScript'],
-      'keywords': ['Solana', 'Blockchain', 'Schema', 'TypeScript', 'Rust', 'Borsh', 'Code Generation']
+      'programmingLanguage': ['Rust', 'TypeScript', 'Python', 'Go', 'Ruby'],
+      'keywords': ['Solana Schema Generation', 'Solana Schema Tool', 'Schema Generator', 'Solana Code Generator', 'Rust TypeScript Generator', 'Borsh Serialization', 'Anchor Integration', 'Type-safe Solana', 'Schema Language', 'Solana Development Tools']
     },
     // WebPage (current page)
     {

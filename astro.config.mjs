@@ -9,7 +9,7 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'LUMOS',
-			description: 'Write once. Deploy Everywhere. Type-safe schema language for Solana development.',
+			description: 'Solana schema generation tool. Generate synchronized Rust + TypeScript code with type-safe Borsh serialization. Schema-first development for Solana.',
 			logo: {
 				src: './src/assets/logo.png',
 			},
