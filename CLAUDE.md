@@ -67,5 +67,26 @@ Images are saved to `public/og/{slug}.png` (1200x630px).
 
 ---
 
-**Last Updated:** 2025-12-16
+## Cross-Posting (Dev.to)
+
+**Organization:** [@getlumos](https://dev.to/getlumos) (ID: 12078)
+**API credentials:** `~/.claude/lumos/devto-credentials.md`
+
+**Cross-post workflow:**
+1. Articles saved to `devto-posts/` directory
+2. Use canonical_url pointing to docs.lumos-lang.org
+3. Publish via API or manually
+
+**Tags to use:** `solana`, `rust`, `typescript`, `webdev`, `blockchain`
+
+---
+
+## Analytics
+
+**Google Analytics 4:** G-1NZRT4TYL6
+**Google Search Console:** Verified (sitemap submitted)
+
+---
+
+**Last Updated:** 2025-12-17
 **Status:** Live at https://docs.lumos-lang.org
