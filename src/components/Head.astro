@@ -91,6 +91,15 @@ const schemaOrg = {
 };
 ---
 
+{/* Google Analytics 4 - must be early in head for Search Console verification */}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NZRT4TYL6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1NZRT4TYL6');
+</script>
+
 {/* Render default Starlight head elements */}
 {head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
 
@@ -107,12 +116,3 @@ const schemaOrg = {
 
 {/* Schema.org JSON-LD */}
 <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
-
-{/* Google Analytics 4 */}
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NZRT4TYL6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-1NZRT4TYL6');
-</script>
