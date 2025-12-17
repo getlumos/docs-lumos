@@ -107,3 +107,12 @@ const schemaOrg = {
 
 {/* Schema.org JSON-LD */}
 <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+
+{/* Google Analytics 4 */}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WLP5QQ5CWR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WLP5QQ5CWR');
+</script>
