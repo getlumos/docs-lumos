@@ -26,7 +26,7 @@ They work at different layers and can be used together.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   YOUR SOLANA PROGRAM                        │
+│                   YOUR SOLANA PROGRAM                       │
 │  ┌────────────────────────────────────────────────────────┐ │
 │  │                                                        │ │
 │  │   ┌──────────────────┐                                 │ │
@@ -46,12 +46,12 @@ They work at different layers and can be used together.
                               │ and generates...
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                        CLIENTS                               │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐        │
-│  │   JS    │  │  Rust   │  │ Python  │  │  Dart   │        │
-│  │ Client  │  │ Client  │  │ Client  │  │ Client  │        │
-│  └─────────┘  └─────────┘  └─────────┘  └─────────┘        │
-│                                                              │
+│                        CLIENTS                              │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐         │
+│  │   JS    │  │  Rust   │  │ Python  │  │  Dart   │         │
+│  │ Client  │  │ Client  │  │ Client  │  │ Client  │         │
+│  └─────────┘  └─────────┘  └─────────┘  └─────────┘         │
+│                                                             │
 │  ◄── Codama generates these (SDK code to interact)          │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -65,6 +65,7 @@ They work at different layers and can be used together.
 [Codama](https://github.com/codama-idl/codama) is a code generation framework that creates standardized descriptions of Solana programs. It works around a central concept called the **Codama IDL**.
 
 **Core workflow:**
+
 ```
 Existing Program → Parse → Codama IDL → Generate Clients
      or
@@ -72,6 +73,7 @@ Anchor IDL → Convert → Codama IDL → Generate Clients
 ```
 
 **What Codama does:**
+
 - Parses existing Solana programs or Anchor IDL files
 - Creates a unified IDL representation with 60+ node types
 - Generates client SDKs in multiple languages (JS, Rust, Python, Dart)
@@ -86,11 +88,13 @@ Anchor IDL → Convert → Codama IDL → Generate Clients
 [LUMOS](https://lumos-lang.org) is a **schema-first DSL** for defining data structures with guaranteed type safety across Rust and TypeScript.
 
 **Core workflow:**
+
 ```
 .lumos Schema → Parse → IR → Generate Rust + TypeScript
 ```
 
 **What LUMOS does:**
+
 - Defines data structures in a clean, Rust-like syntax
 - Generates Rust structs with proper Borsh serialization
 - Generates TypeScript interfaces with matching Borsh schemas
@@ -169,7 +173,7 @@ await program.methods
 
 ## When to Use Each
 
-### Use LUMOS When:
+### Use LUMOS When
 
 ✅ Defining new data structures for a Solana program
 ✅ Need Rust + TypeScript type synchronization with Borsh
@@ -177,7 +181,7 @@ await program.methods
 ✅ Want compile-time guarantees that types match
 ✅ Need Go or Ruby code generation
 
-### Use Codama When:
+### Use Codama When
 
 ✅ Building clients for existing/deployed programs
 ✅ Need full SDK generation with instruction builders
@@ -223,6 +227,7 @@ Here's how a complete workflow looks:
 | **Focus** | Data structures | Full program interface |
 
 **They're complementary tools:**
+
 - Use **LUMOS** when defining your data schemas during development
 - Use **Codama** when generating client libraries for distribution
 
