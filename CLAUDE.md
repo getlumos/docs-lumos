@@ -35,14 +35,13 @@ npm run preview          # Preview build
 
 ## Deployment
 
-**Platform:** VPS (Docker)
-**SSH Host:** `lumos` (176.222.53.185)
-**User:** `lumos`
-**Port:** 4000
-**Domain:** docs.lumos-lang.org
-**Auto-deploy:** GitHub Actions → Docker → VPS
+**Platform:** Vercel
+**Project:** `rectors-projects/docs-lumos`
+**Domain:** docs.lumos-lang.org (Let's Encrypt, auto-renewed by Vercel)
+**Auto-deploy:** push to `master` → Vercel builds and promotes to production
+**Config:** `vercel.json` (framework=astro, build=`npm run build`, output=`dist`)
 
-**Build:** `npm run build` → `dist/`
+**Build:** `npm run build` runs OG image generation then `astro build` → `dist/`
 
 ---
 
