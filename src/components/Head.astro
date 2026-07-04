@@ -4,7 +4,10 @@
  * Extends Starlight's default Head with:
  * - og:image and twitter:image (per-page OG images)
  * - Schema.org JSON-LD structured data
+ * - Vercel Web Analytics
  */
+
+import Analytics from '@vercel/analytics/astro';
 
 const { head } = Astro.locals.starlightRoute;
 const { entry, slug } = Astro.locals.starlightRoute;
@@ -116,3 +119,6 @@ const schemaOrg = {
 
 {/* Schema.org JSON-LD */}
 <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+
+{/* Vercel Web Analytics */}
+<Analytics />
